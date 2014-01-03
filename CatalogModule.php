@@ -12,6 +12,10 @@ class CatalogModule extends CWebModule
 			'catalog.models.*',
 			'catalog.components.*',
 		));
+		$this->setComponents(array(
+            'errorHandler' => array(
+                'errorAction' => 'catalog/default/error'),   
+        ));
 	}
 
 	public function beforeControllerAction($controller, $action)

@@ -1,6 +1,6 @@
 <?php
 $level=0;
-echo '<select name="Category[id]">';
+echo '<select name="'.$this->name.'">';
 foreach($categories as $n=>$category)
 {
 	if($category->level==$level)
@@ -18,7 +18,15 @@ foreach($categories as $n=>$category)
 		}
 	}
 
-	echo '<option value="'.$category->id.'">';
+	if($this->selected == $category->id ) 
+	{
+		$selected = 'selected';
+	}
+	else {
+		$selected = '';
+	}
+
+	echo '<option '.$selected.' value="'.$category->id.'">';
 	echo str_repeat('.', $category->level).CHtml::encode($category->name);
 	$level=$category->level;
 }

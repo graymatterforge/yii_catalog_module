@@ -20,8 +20,8 @@ foreach($categories as $n=>$category)
 
 	echo CHtml::openTag('li');
 	echo CHtml::encode($category->name)
-	.':'.CHtml::link('Edit?', 'admin/edit_category/?id='.$category->id)
-	.':'.CHtml::link('Delete?', 'admin/delete_category/?id='.$category->id,array('onclick' => 'return con_firm();return false'));
+	.':'.CHtml::link('Edit?', Yii::app()->createAbsoluteUrl('catalog/admin/edit_category/'.$category->id))
+	.':'.CHtml::link('Delete?', Yii::app()->createAbsoluteUrl('catalog/admin/delete_category/'.$category->id),array('onclick' => 'return con_firm();return false'));
 	$level=$category->level;
 }
 

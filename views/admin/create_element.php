@@ -15,18 +15,21 @@
 
 <h3>add element</h3>
 <?php echo $form->errorSummary($catalog); ?>
-
+<div class="row">
+<?php echo $form->labelEx($catalog,'category'); ?><?php $this->widget('Tree', array(
+                'template' => 'tree/select',
+                'data' => $allCategorys,
+                'title'=>'',
+                'name' => 'Catalog[category]'
+            )); ?>
+        </div>
+    </br>
 <div class="row">
     <?php echo $form->labelEx($catalog,'name'); ?>
     <?php echo $form->textField($catalog,'name'); ?>
     <?php echo $form->error($catalog,'name'); ?>
 </div>
-
-<div class="row">
-    <?php echo $form->labelEx($catalog,'category'); ?>
-    <?php echo $form->textField($catalog,'category'); ?>
-    <?php echo $form->error($catalog,'category'); ?>
-</div>
+</br>
  <?php echo $form->hiddenField($catalog,'created_at',array('value' => date('Y-m-d',time() ) ) ); ?>
 <div class="row">
    <?php echo CHtml::submitButton('Create element',array('name' => 'create_element')); ?>

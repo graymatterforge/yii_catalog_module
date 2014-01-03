@@ -9,11 +9,16 @@ class Tree extends CPortlet
 	public $data=NULL;
 	public $hide_category=NULL;
 	public $url=NULL;
+	public $selected=NULL;
+	public $name= 'Category[id]';
 	//id
 	//parent_id = id
 	protected function renderContent()
 	{
-		$this->render($this->template,array('categories' => $this->data,'hide' => $this->hide_category,'url'=>$this->url));
+		$this->render($this->template,array('categories' => $this->data,
+											'hide' => $this->hide_category,
+											'url'=>$this->url,
+											'selected' => $this->selected));
 	}
 	
 	
