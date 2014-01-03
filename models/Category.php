@@ -7,7 +7,7 @@ class Category extends CActiveRecord
 	{
 	    return array(
 	        'nestedSetBehavior'=>array(
-	            'class'=>'application.extensions.NestedSetBehavior',
+	            'class'=>'application.modules.catalog.ext.NestedSetBehavior',
 	            'leftAttribute'=>'lft',
 	            'rightAttribute'=>'rgt',
 	            'levelAttribute'=>'level',
