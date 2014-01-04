@@ -14,6 +14,33 @@ class AdminController extends Controller
 	}
 
 	/*
+	*	Route main.php -> 'catalog/admin/show_category/<id:\d+>'=>'catalog/admin/show_category',
+	*/
+	public function actionShow_category($id)
+	{
+		$category=Category::model()->findByPk($id);
+		$sub_sections=$category->descendants()->findAll();
+
+		if(count($sub_sections) > 0)
+		{
+			$catalog = Catalog::model()->findAll('category=:category',array(':category' => $id));	
+			foreach ($sub_sections as $key => $section) {
+				$q = Catalog::model()->findAll('category=:category',array(':category' => $section->id));
+				if($q)
+				{
+					$catalog = array_merge($catalog,$q);
+				}
+			}
+
+		
+		}
+		else {
+			$catalog = Catalog::model()->findAll('category=:category',array(':category' => $id));
+		}
+		$this->render('show_category',array('catalog' => $catalog) );
+	}
+
+	/*
 	*	Route main.php -> '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 	*/
 	public function actionCreate_element()
@@ -26,6 +53,26 @@ class AdminController extends Controller
 
 			if($catalog->validate())
 			{
+				if(empty($_POST['Catalog']['count']))
+				{
+					$catalog->count = 1;
+				}
+
+				if(empty($_POST['Catalog']['meta_title']) )
+				{
+					$catalog->meta_title = $_POST['Catalog']['name'];
+				}
+
+				if(empty($_POST['Catalog']['meta_keywords']) )
+				{
+					$catalog->meta_keywords = $_POST['Catalog']['name'];
+				}
+
+				if(empty($_POST['Catalog']['meta_desc']) )
+				{
+					$catalog->meta_desc = $_POST['Catalog']['name'];
+				}
+
 				$catalog->save();
 				Yii::app()->user->setFlash('create_element', "Element was created");
 				$this->redirect(Yii::app()->createAbsoluteUrl('catalog/admin/create_element'));

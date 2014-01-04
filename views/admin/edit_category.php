@@ -1,4 +1,5 @@
-<h1>Manage catalog edit categirt</h1>
+<?php $this->pageTitle='edit category'; ?>
+<?php $this->renderPartial('_crumbs'); ?>
 <?php  
     foreach(Yii::app()->user->getFlashes() as $key => $message) {
         echo '<div class="flash-' . $key . '">' . $message . "</div>";
@@ -13,7 +14,6 @@
     'htmlOptions' => array('id' => 'edit_category')
 )); ?>
 
-<h3>edit category</h3>
 <?php echo $form->errorSummary($category); ?>
 <div class="row">
     <?php //echo $form->dropDownlist($category,'id',CHtml::listData($allCategorys, 'id', 'name')); ?>
