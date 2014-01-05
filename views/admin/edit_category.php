@@ -29,7 +29,29 @@
     <?php echo $form->textField($category,'name'); ?>
     <?php echo $form->error($category,'name'); ?>
 </div>
+<div class="row">
+    <?php echo $form->labelEx($category,'meta_title'); ?>
+    <?php echo $form->textField($category,'meta_title'); ?>
+    <?php echo $form->error($category,'meta_title'); ?>
+</div>
+<div class="row">
+    <?php echo $form->labelEx($category,'meta_keywords'); ?>
+    <?php echo $form->textField($category,'meta_keywords'); ?>
+    <?php echo $form->error($category,'meta_keywords'); ?>
+</div>
+<div class="row">
+    <?php echo $form->labelEx($category,'meta_desc'); ?>
+    <?php echo $form->textField($category,'meta_desc'); ?>
+    <?php echo $form->error($category,'meta_desc'); ?>
+</div>
+<div class="row">
+    <?php echo $form->labelEx($category,'sort'); ?>
+    <?php echo $form->textField($category,'sort'); ?>
+    <?php echo $form->error($category,'sort'); ?>
+</div>
 
+ <?php echo $form->hiddenField($category,'created_at',array('value' => date('Y-m-d',time() ) ) ); ?>
+ <?php echo $form->hiddenField($category,'timestap_x',array('value' => time() ) ); ?>
 <div class="row">
    <?php echo CHtml::submitButton('Edit category',array('name' => 'edit_category')); ?>
 </div>

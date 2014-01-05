@@ -9,3 +9,12 @@
 <?php foreach ($catalog as $key => $element): ?>
 	<?php echo $element->name ?></br>
 <?php endforeach ?>
+
+<?php
+if(isset($pages))
+{
+	 $this->widget('XLinkPager', array(
+    'pages' => $pages
+	)) ;
+}
+?>

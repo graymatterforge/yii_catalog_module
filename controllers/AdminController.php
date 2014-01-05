@@ -2,6 +2,8 @@
 
 class AdminController extends Controller
 {
+	public $elementsPerPage = 2;
+	public $elementsSort = 'ORDER BY id DESC';
 	/*
 	*	Route main.php -> '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 	*/
@@ -20,24 +22,42 @@ class AdminController extends Controller
 	{
 		$category=Category::model()->findByPk($id);
 		$sub_sections=$category->descendants()->findAll();
-
 		if(count($sub_sections) > 0)
 		{
-			$catalog = Catalog::model()->findAll('category=:category',array(':category' => $id));	
+			/*
+			$catalog = Catalog::model()->findAll('category=:category '.$this->elementsSort,array(':category' => $id));	
 			foreach ($sub_sections as $key => $section) {
-				$q = Catalog::model()->findAll('category=:category',array(':category' => $section->id));
+				$q = Catalog::model()->findAll('category=:category '.$this->elementsSort,
+											array(':category' => $section->id) );
 				if($q)
 				{
 					$catalog = array_merge($catalog,$q);
 				}
 			}
+			*/
+			$section_ids = array($id);
 
-		
+			foreach ($sub_sections as $key => $section) {
+				$section_ids[] = $section->id;	
+			}
+			$criteria=new CDbCriteria();
+			$criteria->addInCondition('category',$section_ids); 
+		    $count=Catalog::model()->count($criteria);
+		    $pages=new CPagination($count);
+
+		    // results per page
+		    $pages->pageSize= $this->elementsPerPage;
+		    $pages->applyLimit($criteria); 
+		   
+		    $catalog=Catalog::model()->findAll($criteria);
+
+			$this->render('show_category',array('catalog' => $catalog,'pages' => $pages) );
 		}
 		else {
-			$catalog = Catalog::model()->findAll('category=:category',array(':category' => $id));
+			$catalog = Catalog::model()->findAll('category=:category '.$this->elementsSort,array(':category' => $id));
+			$this->render('show_category',array('catalog' => $catalog) );
 		}
-		$this->render('show_category',array('catalog' => $catalog) );
+		
 	}
 
 	/*
@@ -94,6 +114,22 @@ class AdminController extends Controller
 			if($category->validate())
 			{
 				$category->name = $_POST['Category']['name'];
+
+				if(empty($_POST['Category']['meta_title']) )
+				{
+					$catalog->meta_title = $_POST['Category']['name'];
+				}
+
+				if(empty($_POST['Category']['meta_keywords']) )
+				{
+					$catalog->meta_keywords = $_POST['Category']['name'];
+				}
+
+				if(empty($_POST['Category']['meta_desc']) )
+				{
+					$catalog->meta_desc = $_POST['Category']['name'];
+				}
+
 				$root=Category::model()->findByPk($_POST['Category']['id']);
 				$category->appendTo($root);
 				Yii::app()->user->setFlash('create_category', "Category was created");
