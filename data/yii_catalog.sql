@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2014 at 12:12 
+-- Generation Time: Jan 05, 2014 at 12:44 
 -- Server version: 5.6.12
 -- PHP Version: 5.5.3
 
@@ -30,16 +30,28 @@ CREATE TABLE IF NOT EXISTS `yii_catalog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(300) NOT NULL,
   `category` int(11) NOT NULL,
+  `preview_text` varchar(300) NOT NULL,
+  `detail_text` text NOT NULL,
+  `sort` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  `meta_title` varchar(300) NOT NULL,
+  `meta_desc` varchar(300) NOT NULL,
+  `meta_keywords` varchar(300) NOT NULL,
   `created_at` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data for table `yii_catalog`
 --
 
-INSERT INTO `yii_catalog` (`id`, `name`, `category`, `created_at`) VALUES
-(12, 'test el', 1, '2014-01-03');
+INSERT INTO `yii_catalog` (`id`, `name`, `category`, `preview_text`, `detail_text`, `sort`, `count`, `meta_title`, `meta_desc`, `meta_keywords`, `created_at`) VALUES
+(25, 'Iphone 4s white 8Gb', 9, 'Best phone in world', 'Very nice phone', 500, 15, 'Buy iphone 4s quick', 'Iphone 4s white 8Gb', 'Iphone 4s white 8Gb', '2014-01-04'),
+(26, 'iphone 5s black 16Gb', 10, '', '', 500, 1, 'iphone 5s black 16Gb', 'iphone 5s black 16Gb', 'iphone 5s black 16Gb', '2014-01-04'),
+(27, 'Samsung galaxy', 5, '', '', 500, 1, 'Samsung galaxy', 'Samsung galaxy', 'Samsung galaxy', '2014-01-04'),
+(28, 'Iphone 4s black 16Gb', 9, '', '', 500, 14, 'Nice phone', 'Iphone 4s black 16Gb', 'nice phone very nice', '2014-01-04'),
+(30, 'Sony xperia go', 2, 'Sony xperiva nice phone', '', 500, 12, 'Buy Sony xperia go today', 'Sony xperia go', 'Sony xperia go', '2014-01-04'),
+(31, 'LG Optimus L2', 2, 'simple fon', '', 500, 1, 'Buy LG Optimus L2 price new', 'simple fon', 'asdasd', '2014-01-04');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
