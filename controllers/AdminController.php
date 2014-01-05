@@ -50,7 +50,10 @@ class AdminController extends Controller
 		    $pages->applyLimit($criteria); 
 		   
 		    $catalog=Catalog::model()->findAll($criteria);
-
+		    /*
+			* Pagination route main.php -> 'catalog/admin/show_category/<id:\d+>/<page:\d+>'=>'catalog/admin/show_category',
+			* Custom page url in protected/components/xlinkpager.php
+		    */
 			$this->render('show_category',array('catalog' => $catalog,'pages' => $pages) );
 		}
 		else {
