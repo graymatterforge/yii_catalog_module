@@ -3,7 +3,7 @@
 class DefaultController extends Controller
 {
 
-	public $elementsPerPage = 2;
+	public $elementsPerPage = 10;
 	public $elementsSort = 'ORDER BY id DESC';
 	
 	public function actionIndex()
@@ -15,10 +15,11 @@ class DefaultController extends Controller
 	*	Get elements from section by section id like bitrix style
 	*   Route main.php -> 'catalog/<id:\d+>'=>'catalog/default/section',
 	*/
-	public function actionSection($id)
+	public function actionSection($id = 1)
 	{
-		$category=Category::model()->findByPk($id);
 
+		$category=Category::model()->findByPk($id);
+		$allCategorys = Category::model()->findAll(array('order'=>'lft'));
 		$sub_sections=$category->descendants()->findAll();
 		if(count($sub_sections) > 0)
 		{
@@ -44,7 +45,7 @@ class DefaultController extends Controller
 		    $pages=new CPagination($count);
 
 		    // results per page
-		    $pages->pageSize= $this->elementsPerPage;
+		    $pages->pageSize= Yii::app()->getModule('catalog')->params['elementsPerPage'];
 		    $pages->applyLimit($criteria); 
 		   
 		    $catalog=Catalog::model()->findAll($criteria);
@@ -58,7 +59,8 @@ class DefaultController extends Controller
 			$this->render('section',array('catalog' => $catalog,
 												'pages' => $pages,
 												'category' => $category,
-												'sub_sections' => $descendants) );
+												'sub_sections' => $descendants,
+												'allCategorys' => $allCategorys) );
 		}
 		else {
 			$descendants=$category->ancestors()->findAll();
@@ -79,7 +81,8 @@ class DefaultController extends Controller
 			$this->render('section',array('catalog' => $catalog,
 												'pages' => $pages,
 												'category' => $category,
-												'sub_sections' => $descendants) );
+												'sub_sections' => $descendants,
+												'allCategorys' => $allCategorys) );
 		}
 	}
 

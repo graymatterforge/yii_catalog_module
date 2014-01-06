@@ -19,7 +19,7 @@ $this->renderPartial('_crumbs',array('category' => $category->name,'category_sec
 <?php //echo '<pre>'; print_r($catalog);echo '</pre>'; ?>
 <?php foreach ($catalog as $key => $element): ?>
 	<?php echo $element->name ?>:<?php echo CHtml::link('Edit?',Yii::app()->createAbsoluteUrl('catalog/admin/edit_element/'.$element->id)) ?>
-:<?php echo CHtml::link('Delete?',Yii::app()->createAbsoluteUrl('catalog/admin/delete_element/'.$element->id),array('onclick' => 'return con_firm();return false')) ?></br>
+:<?php echo CHtml::link('Delete?',Yii::app()->createAbsoluteUrl('catalog/admin/delete_element/'.$element->id.'/?cat='.$category->id),array('onclick' => 'return con_firm();return false')) ?></br>
 <?php endforeach ?>
 
 <?php

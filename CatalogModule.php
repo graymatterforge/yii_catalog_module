@@ -17,7 +17,8 @@ class CatalogModule extends CWebModule
                 'errorAction' => 'catalog/default/error'),   
         ));
         $this->setParams(array(
-            'valute' => 'RUB'  
+            'valute' => 'RUB' ,
+            'elementsPerPage' => 3
         ));
 	}
 

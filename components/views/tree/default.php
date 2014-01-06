@@ -19,7 +19,7 @@ foreach($categories as $n=>$category)
 	}
 
 	echo CHtml::openTag('li');
-	echo CHtml::encode($category->name);
+	echo CHtml::link($category->name,Yii::app()->createAbsoluteUrl('catalog/'.$category->id));
 	$level=$category->level;
 }
 

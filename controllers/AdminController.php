@@ -227,6 +227,18 @@ class AdminController extends Controller
 											'parentCategory' => $parent));
 	}
 
+
+	/*
+	*	Route main.php -> 'catalog/admin/delete_element/<id:\d+>'=>'catalog/admin/delete_element',
+	*/
+	public function actionDelete_element($id)
+	{
+		$el = Catalog::model()->findByPk($id);
+		$el->delete();
+		Yii::app()->user->setFlash('delete_element', "Element was deleted");
+		$this->redirect(Yii::app()->createAbsoluteUrl('catalog/admin/show_category/'.$_GET['cat']));
+	}
+
 	/*
 	*	Route main.php -> 'catalog/admin/delete_category/<id:\d+>'=>'catalog/admin/delete_category'
 	*/

@@ -6,21 +6,18 @@ if(Yii::app()->controller->action->id == 'section')
 	if(!empty($category_sections))
 	{
 		foreach ($category_sections as $key => $value) {
-			if($value->id != 1)
-			{
-				$category_cur .= $value->name.'=>';
-			}
+			
+				$category_cur[$value->name] = Yii::app()->createAbsoluteUrl('catalog/'.$value->id) ;
+
 			
 		}
 	}
 
-	$category_cur .= $category;
+	$category_cur[] = $category;
 	
 }
 
 $this->widget('zii.widgets.CBreadcrumbs', array(
-    'links'=>array(
-        $category_cur
-    ),
+    'links'=> $category_cur
 ));
 ?>
