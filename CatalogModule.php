@@ -16,6 +16,9 @@ class CatalogModule extends CWebModule
             'errorHandler' => array(
                 'errorAction' => 'catalog/default/error'),   
         ));
+        $this->setParams(array(
+            'valute' => 'RUB'  
+        ));
 	}
 
 	public function beforeControllerAction($controller, $action)

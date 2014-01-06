@@ -1,4 +1,4 @@
-<?php $this->pageTitle='create element'; ?>
+<?php $this->pageTitle='edit element'; ?>
 <?php $this->renderPartial('_crumbs'); ?>
 <?php  
     foreach(Yii::app()->user->getFlashes() as $key => $message) {
@@ -10,8 +10,8 @@
     'enableAjaxValidation'=>false,
     'enableClientValidation'=>false,
     'method' => 'post',
-    'action' => Yii::app()->createAbsoluteUrl('catalog/admin/create_element'),
-    'htmlOptions' => array('id' => 'create_element')
+    'action' => Yii::app()->createAbsoluteUrl('catalog/admin/edit_element/'.$catalog->id),
+    'htmlOptions' => array('id' => 'edit_element')
 )); ?>
 
 
@@ -22,7 +22,8 @@
                 'template' => 'tree/select',
                 'data' => $allCategorys,
                 'title'=>'',
-                'name' => 'Catalog[category]'
+                'name' => 'Catalog[category]',
+                'selected' => $parentCategory->id
             )); ?>
         </div>
     </br>
@@ -82,6 +83,6 @@
 </br>
  <?php echo $form->hiddenField($catalog,'created_at',array('value' => date('Y-m-d',time() ) ) ); ?>
 <div class="row">
-   <?php echo CHtml::submitButton('Create element',array('name' => 'create_element')); ?>
+   <?php echo CHtml::submitButton('Edit element',array('name' => 'edit_element')); ?>
 </div>
 <?php $this->endWidget(); ?>

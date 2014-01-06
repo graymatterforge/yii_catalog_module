@@ -21,6 +21,7 @@ class AdminController extends Controller
 	public function actionShow_category($id)
 	{
 		$category=Category::model()->findByPk($id);
+
 		$sub_sections=$category->descendants()->findAll();
 		if(count($sub_sections) > 0)
 		{
@@ -54,11 +55,34 @@ class AdminController extends Controller
 			* Pagination route main.php -> 'catalog/admin/show_category/<id:\d+>/<page:\d+>'=>'catalog/admin/show_category',
 			* Custom page url in protected/components/xlinkpager.php
 		    */
-			$this->render('show_category',array('catalog' => $catalog,'pages' => $pages) );
+
+		    $descendants=$category->ancestors()->findAll();
+
+			$this->render('show_category',array('catalog' => $catalog,
+												'pages' => $pages,
+												'category' => $category,
+												'sub_sections' => $descendants) );
 		}
 		else {
-			$catalog = Catalog::model()->findAll('category=:category '.$this->elementsSort,array(':category' => $id));
-			$this->render('show_category',array('catalog' => $catalog) );
+			$descendants=$category->ancestors()->findAll();
+
+			$criteria=new CDbCriteria();
+			$criteria->addInCondition('category',array($id)); 
+		    $count=Catalog::model()->count($criteria);
+		    $pages=new CPagination($count);
+
+		    // results per page
+		    $pages->pageSize= $this->elementsPerPage;
+		    $pages->applyLimit($criteria); 
+		   
+		    $catalog=Catalog::model()->findAll($criteria);
+
+			//$catalog = Catalog::model()->findAll('category=:category '.$this->elementsSort,array(':category' => $id));
+			
+			$this->render('show_category',array('catalog' => $catalog,
+												'pages' => $pages,
+												'category' => $category,
+												'sub_sections' => $descendants) );
 		}
 		
 	}
@@ -105,6 +129,29 @@ class AdminController extends Controller
 		$this->render('create_element',array('catalog' => $catalog,'allCategorys' => $allCategorys));
 	}
 
+	public function actionEdit_element($id)
+	{
+		$el = Catalog::model()->findByPk($id);
+
+		$category = Category::model()->findByPk($el->category);
+		
+		$allCategorys = Category::model()->findAll(array('order'=>'lft'));
+
+		if(isset($_POST['edit_element']))
+		{
+			$el->attributes = $_POST['Catalog'];
+			if($el->validate())
+			{
+				$el->save();
+				Yii::app()->user->setFlash('edit_element', "Element was updated");
+				$this->redirect(Yii::app()->createAbsoluteUrl('catalog/admin/edit_element/'.$id));
+			}
+		}
+		$this->render('edit_element',array('catalog' => $el,
+											'allCategorys' => $allCategorys,
+											'parentCategory' => $category));
+	}
+
 	/*
 	*	Route main.php -> '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 	*/
@@ -120,17 +167,17 @@ class AdminController extends Controller
 
 				if(empty($_POST['Category']['meta_title']) )
 				{
-					$catalog->meta_title = $_POST['Category']['name'];
+					$category->meta_title = $_POST['Category']['name'];
 				}
 
 				if(empty($_POST['Category']['meta_keywords']) )
 				{
-					$catalog->meta_keywords = $_POST['Category']['name'];
+					$category->meta_keywords = $_POST['Category']['name'];
 				}
 
 				if(empty($_POST['Category']['meta_desc']) )
 				{
-					$catalog->meta_desc = $_POST['Category']['name'];
+					$category->meta_desc = $_POST['Category']['name'];
 				}
 
 				$root=Category::model()->findByPk($_POST['Category']['id']);

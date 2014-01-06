@@ -75,7 +75,7 @@ class NestedSetBehavior extends CActiveRecordBehavior
 		$db=$owner->getDbConnection();
 		$criteria=$owner->getDbCriteria();
 		$alias=$db->quoteColumnName($owner->getTableAlias());
-
+		
 		$criteria->mergeWith(array(
 			'condition'=>$alias.'.'.$db->quoteColumnName($this->leftAttribute).'<'.$owner->{$this->leftAttribute}.
 				' AND '.$alias.'.'.$db->quoteColumnName($this->rightAttribute).'>'.$owner->{$this->rightAttribute},
@@ -83,8 +83,10 @@ class NestedSetBehavior extends CActiveRecordBehavior
 		));
 
 		if($depth!==null)
+		{
 			$criteria->addCondition($alias.'.'.$db->quoteColumnName($this->levelAttribute).'>='.($owner->{$this->levelAttribute}-$depth));
-
+		}
+			
 		if($this->hasManyRoots)
 		{
 			$criteria->addCondition($alias.'.'.$db->quoteColumnName($this->rootAttribute).'='.CDbCriteria::PARAM_PREFIX.CDbCriteria::$paramCount);

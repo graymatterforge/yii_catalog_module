@@ -25,7 +25,7 @@ class Catalog extends CActiveRecord
 		return array(
 			// username and password are required
 			array('name,created_at', 'required'),
-			array('category,preview_text,detail_text,sort,count,meta_title,meta_keywords,meta_desc','safe')
+			array('category,preview_text,detail_text,sort,count,meta_title,meta_keywords,meta_desc,price1','safe')
 		);
 	}
 
@@ -46,7 +46,8 @@ class Catalog extends CActiveRecord
 			'meta_title' => 'Meta title',
 			'meta_desc' => 'Meta description',
 			'meta_keywords' => 'Meta keywords',
-			'created_at' => 'Created at'	
+			'created_at' => 'Created at',
+			'price1' => 'Price base (price1)'.Yii::app()->getModule('catalog')->params['valute']	
 		);
 	}
 
